@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=barook_main_db'
+      - 'MYSQL_PASSWORD=MammadMammad'
+      - 'MYSQL_USER=root'
+      - 'MYSQL_ROOT_PASSWORD=MammadMammad'
+    ports:
+      - '3307:3307'
+  application:
+    build: .
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3307/barook_main_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: MammadMammad
+  volumes:
+    mysql-data:
